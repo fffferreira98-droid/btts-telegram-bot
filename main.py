@@ -13,6 +13,13 @@ TELEGRAM_CHAT_ID = os.environ["TELEGRAM_CHAT_ID"]
 session = requests.Session()
 session.headers.update({"Accept": "application/json"})
 
+# <<< ADICIONADO >>>
+def format_fixture_datetime(starting_at):
+    if not starting_at:
+        return "Data/Hora indefinida"
+    dt = datetime.fromisoformat(starting_at)
+    return dt.strftime("%d/%m/%Y %H:%M")
+
 def get_fixtures_today():
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     url = f"{BASE_URL}/fixtures/date/{today}"
@@ -111,6 +118,10 @@ def main():
 
     for fixture in fixtures:
         home, away = get_team_names(fixture)
+
+        # <<< ADICIONADO >>>
+        fixture_datetime = format_fixture_datetime(fixture.get("starting_at"))
+
         for team in [home, away]:
             if not team or team[0] in teams_checked:
                 continue
@@ -138,14 +149,18 @@ def main():
                     print("(BTTS=Yes)")
                     all_no = False
             if all_no:
-                teams_btts_no.append(team[1])
+                # <<< ADICIONADO >>>
+                teams_btts_no.append({
+                    "team": team[1],
+                    "datetime": fixture_datetime
+                })
 
     if teams_btts_no:
         message = "📊 *Teams with 2 consecutive matches WITHOUT BTTS:*\n\n"
         print("\nTeams with 2 consecutive matches WITHOUT BTTS (BTTS=No):\n")
-        for name in teams_btts_no:
-            print(f" - {name}")
-            message += f"• {name}\n"
+        for item in teams_btts_no:
+            print(f" - {item['team']} | Jogo: {item['datetime']}")
+            message += f"• {item['team']} 🕒 {item['datetime']}\n"
         send_telegram_message(message)
     else:
         print("\nNo teams found with 2 consecutive matches without BTTS.")

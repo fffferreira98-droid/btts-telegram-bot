@@ -1,12 +1,12 @@
 import requests
 from datetime import datetime, timedelta, timezone
 
-API_TOKEN = "U6AJVxdGg01Bm2wNJceaAvfSCRvOI0rB23b1P42OshrXDba5NYxMCmkR0sdQ"
+API_TOKEN = os.environ["API_TOKEN"]
 BASE_URL = "https://api.sportmonks.com/v3/football"
 
 # --- TELEGRAM CONFIG ---
-TELEGRAM_BOT_TOKEN = "8372371904:AAE3bAPgzLfs_qbp8yxy3pCLcPf740BQ6Fs"
-TELEGRAM_CHAT_ID = "8197317874"
+TELEGRAM_BOT_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
+TELEGRAM_CHAT_ID = os.environ["TELEGRAM_CHAT_ID"]
 # -----------------------
 
 session = requests.Session()

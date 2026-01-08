@@ -115,12 +115,12 @@ def main():
             if not team or team[0] in teams_checked:
                 continue
             teams_checked.add(team[0])
-            last3_ids = get_team_last_fixture_ids(team[0], 2)
-            if len(last3_ids) < 3:
+            last2_ids = get_team_last_fixture_ids(team[0], 2)
+            if len(last2_ids) < 2:
                 continue
             all_no = True
-            print(f"\nChecking {team[1]}'s last 3 matches:")
-            for fid in last3_ids:
+            print(f"\nChecking {team[1]}'s last 2 matches:")
+            for fid in last2_ids:
                 fdata = get_fixture_scores(fid)
                 if not fdata:
                     print(f"  Could not fetch fixture {fid}")

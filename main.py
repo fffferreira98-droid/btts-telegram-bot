@@ -115,7 +115,7 @@ def main():
             if not team or team[0] in teams_checked:
                 continue
             teams_checked.add(team[0])
-            last3_ids = get_team_last_fixture_ids(team[0], 3)
+            last3_ids = get_team_last_fixture_ids(team[0], 2)
             if len(last3_ids) < 3:
                 continue
             all_no = True
@@ -141,15 +141,15 @@ def main():
                 teams_btts_no.append(team[1])
 
     if teams_btts_no:
-        message = "📊 *Teams with 3 consecutive matches WITHOUT BTTS:*\n\n"
-        print("\nTeams with 3 consecutive matches WITHOUT BTTS (BTTS=No):\n")
+        message = "📊 *Teams with 2 consecutive matches WITHOUT BTTS:*\n\n"
+        print("\nTeams with 2 consecutive matches WITHOUT BTTS (BTTS=No):\n")
         for name in teams_btts_no:
             print(f" - {name}")
             message += f"• {name}\n"
         send_telegram_message(message)
     else:
-        print("\nNo teams found with 3 consecutive matches without BTTS.")
-        send_telegram_message("ℹ️ No teams found today with 3 consecutive matches without BTTS.")
+        print("\nNo teams found with 2 consecutive matches without BTTS.")
+        send_telegram_message("ℹ️ No teams found today with 2 consecutive matches without BTTS.")
 
 if __name__ == "__main__":
     main()

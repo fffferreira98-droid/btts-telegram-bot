@@ -22,9 +22,25 @@ def format_fixture_datetime(starting_at):
 
 def get_fixtures_today():
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    url = f"{BASE_URL}/fixtures/date/{today}"
-    params = {
-        "include": "participants",
+    all_fixtures = []
+    page = 1
+
+    while True:
+        data = api_get(
+            f"/fixtures/date/{today}",
+            {
+                "include": "participants;odds",
+                "page": page
+            }
+        )
+
+        if not data:
+            break
+
+        all_fixtures.extend(data)
+        page += 1
+
+    return all_fixtures
         "api_token": API_TOKEN
     }
     r = session.get(url, params=params, timeout=30)
